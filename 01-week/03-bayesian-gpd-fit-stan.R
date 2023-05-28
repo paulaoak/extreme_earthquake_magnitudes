@@ -35,7 +35,16 @@ stan_data <- list(N = length(data),
 model <- stan_model(model_code = stan_code)
 
 # Fit the model using MCMC sampling
-fit <- sampling(model, data = stan_data, iter = 5e4, warmup = 1000, chains = 4)
+fit <- sampling(model, data = stan_data, iter = 5e4, warmup = 1000, chains = 4, cores = 4) #parallelise computations using several cores
 
 # Summary of the fitted parameters
 print(fit)
+
+# Diagnostic plots
+plot(fit)
+
+traceplot(fit, pars = c("xi", "sig_u"), inc_warmup = TRUE, nrow = 2)
+
+# Further inspection of all chains combined
+sampler_params <- get_sampler_params(fit, inc_warmup = TRUE)
+summary(do.call(rbind, sampler_params), digits = 2)
