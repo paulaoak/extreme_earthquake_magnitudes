@@ -1,5 +1,5 @@
 ##############################
-## Maximum likelihood fitting for GPD with constant (predefined threshold)
+## Maximum likelihood fitting for GPD with constant (predefined) threshold
 ##############################
 
 # Required libraries
