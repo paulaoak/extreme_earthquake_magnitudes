@@ -70,7 +70,7 @@ bayesian_estimation_gpd_rd_varu <- function(sigxi_initial, x, v, u, n_iter, n_bu
   # Metropolis-Hastings within Gibbs algorithm
   for (iter in 1:n_iter) {
     
-    #MH for shape parameter  
+    #MH for scale parameter  
     log_posterior_sig_u <- function (scale){log_posterior_gpd_rd_varu(params = c(scale, xi), x = x, v =v, u = u, prior = unif_log_prior)}
     sig_u <- mh_step_random_walk_positive (sig_u, log_posterior_sig_u, sd = sd_sig_u)
     
