@@ -1,5 +1,5 @@
 #######################
-##GPD with variable threshold Bayesian estimation for uninformative uniform prior
+##Bayesian estimation of rounded GPD with variable threshold for uninformative uniform prior
 #######################
  
 # LOG-PRIOR---------------------------------------------------------------------
