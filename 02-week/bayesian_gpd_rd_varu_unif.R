@@ -1,6 +1,10 @@
 #######################
 ##Bayesian estimation of rounded GPD with variable threshold for uninformative uniform prior
 #######################
+
+devtools::install_github('paulaoak/quaketools') #install package from github
+library(quaketools)
+library(coda) #for diagnostics of mcmc
  
 # LOG-PRIOR---------------------------------------------------------------------
 # Define the uninformative uniform prior function for the GPD parameters
@@ -98,7 +102,6 @@ params_samples <- bayesian_estimation_gpd_rd_varu(sigxi_initial = params_initial
                                 n_iter, n_burn, sd_xi=0.1, sd_sig_u=0.2)
 
 #Diagnostic plots and summaries
-library(coda)
 # Summary of the sampled parameters
 params_summary <- apply(params_samples, 1, function(x) {
   c(mean = mean(x), sd = sd(x), quantile(x, c(0.025, 0.975)))
