@@ -85,7 +85,7 @@ simulation_mcmc_1 <- function(mmax, mean,
 
 
 ############################
-#SIMULATION 1 FLAT-FLAT
+#SIMULATION 1
 ############################
 mmax_sim <- 4.6
 mean_sim <- 2.1
