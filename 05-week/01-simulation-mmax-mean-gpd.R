@@ -35,7 +35,7 @@ simulation_mcmc_1 <- function(mmax, mean,
   }
   else{
     set.seed(111)
-    params_initial_grid <- matrix(c(runif(n_starting_points, min = b_value + epsilon, max = 3* b_value + epsilon),
+    params_initial_grid <- matrix(c(runif(n_starting_points, min = b_value + epsilon, max = 4* b_value + epsilon),
                                     runif(n_starting_points, min = u, max = b_value + epsilon)),
                                   ncol = 2)
   }
@@ -87,14 +87,16 @@ simulation_mcmc_1 <- function(mmax, mean,
 ############################
 #SIMULATION 1
 ############################
-mmax_sim <- 4.6
+mmax_sim <- 8.6
 mean_sim <- 2.1
 u_sim <- 1.45
 b_value_sim <- 1.8
-epsilon_sim <- 0.8
-upper_mmax_sim <- 6
+epsilon_sim <- 1.5
+upper_mmax_sim <- 10
+alpha_sim <- 4
+beta_sim <- 0.5
 prior_sim_vector <- c('flat-flat', 'flat-gamma')
-n_data_sim_vector <- c(75, 125, 250, 500)
+n_data_sim_vector <- c(60, 125, 250, 500)
 
 
 for(i in 1:length(n_data_sim_vector)){
@@ -105,7 +107,7 @@ for(i in 1:length(n_data_sim_vector)){
     simulation_results <- simulation_mcmc_1(mmax = mmax_sim, mean = mean_sim,
                                             u = u_sim, n_data = 500, n_iter = 1e4, n_burn = 1e3,
                                             prior = prior_sim,
-                                            b_value = b_value_sim, epsilon = epsilon_sim, upper_mmax = upper_mmax_sim)
+                                            b_value = b_value_sim, epsilon = epsilon_sim, upper_mmax = upper_mmax_sim, alpha = alpha_sim, beta = beta_sim)
 
 
     file_name_sim <- paste('mmax', mmax_sim,

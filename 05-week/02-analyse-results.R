@@ -4,33 +4,46 @@
 
 
 library(ggplot2)
+
 ############################
-#SIMULATION 1 FLAT
+#SIMULATION
 ############################
-xi_sim <- -0.084
-sigma_u_sim <- 0.48
-u_sim <- 1
-n_data_sim <- 500
-v_sim <- rep(c(1.1, 1.45), each = n_data_sim/2)
+mmax_sim <- 4.6
+mean_sim <- 2.1
+u_sim <- 1.45
+b_value_sim <- 1.8
+epsilon_sim <- 0.8
+upper_mmax_sim <- 6
+prior_sim_vector <- c('flat-flat', 'flat-gamma')
+n_data_sim_vector <- c(75, 125, 250, 500)
 
-prior_sim_vector <- c('flat', 'jeffreys', 'mdi')
 
-for (i in 1:length(prior_sim_vector)){
-  prior_sim <- prior_sim_vector[i]
-  file_name_sim <- paste('simulation', prior_sim, 'prior',
-                         'xi', xi_sim,
-                         'sigma_u', sigma_u_sim,
-                         'u', u_sim,
-                         'v_min', min(v_sim),
-                         'v_max', max(v_sim),
-                         n_data_sim, 'n_data', sep = '_')
+for(i in 1:length(n_data_sim_vector)){
+  n_data_sim <- n_data_sim_vector[i]
+  for(j in 1:length(prior_sim_vector)){
+    prior_sim <- prior_sim_vector[j]
 
-  simulation_data_flat_1 <- read.csv(here::here('04-week','simulation_mcmc', 'outputs_variable_new',file_name_sim),
-                                     colClasses=c("NULL", NA, NA, NA, NA), col.names = c('','sigma_all', 'xi_all', 'sigma_high_thres', 'xi_high_thres'))
+    simulation_results <- simulation_mcmc_1(mmax = mmax_sim, mean = mean_sim,
+                                            u = u_sim, n_data = 500, n_iter = 1e4, n_burn = 1e3,
+                                            prior = prior_sim,
+                                            b_value = b_value_sim, epsilon = epsilon_sim, upper_mmax = upper_mmax_sim)
 
-  simulation_1_data <- data.frame(sigma = c(simulation_data_flat_1$sigma_all, simulation_data_flat_1$sigma_high_thres),
-                                  xi = c(simulation_data_flat_1$xi_all, simulation_data_flat_1$xi_high_thres),
-                                  threshold = rep(c('Variable', 'Constant'), each = length(simulation_data_flat_1$sigma_all)))
+
+    file_name_sim <- paste('mmax', mmax_sim,
+                           'mean', mean_sim,
+                           'u', u_sim,
+                           prior_sim, 'prior',
+                           n_data_sim, 'n_data', sep = '_')
+
+    simulation_data <- read.csv(here::here('05-week','outputs',file_name_sim),
+                                colClasses=c("NULL", NA, NA), col.names = c('','mmax', 'mean'))
+
+    simulation_data_df <- data.frame(mmax = c(simulation_data$mmax, simulation_data_flat_1$sigma_high_thres),
+                                    xi = c(simulation_data_flat_1$xi_all, simulation_data_flat_1$xi_high_thres),
+                                    threshold = rep(c('Variable', 'Constant'), each = length(simulation_data_flat_1$sigma_all)))
+
+  }
+}
 
   if(prior_sim == 'flat'){prior_sim = 'Flat'}
   if(prior_sim == 'jeffreys'){prior_sim = 'Jeffreys'}
