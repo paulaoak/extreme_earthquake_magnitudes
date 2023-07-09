@@ -22,6 +22,7 @@ library(quaketools)
 unif_log_prior <- function(params, threshold, upper_mmax, b_value, epsilon, alpha = NULL, beta = NULL) {
   mmax <- params[1]
   mean <- params[2]
+  stopifnot(!is.null(upper_mmax))
 
   stopifnot(b_value + epsilon < upper_mmax)
 
@@ -39,6 +40,8 @@ unif_log_prior <- function(params, threshold, upper_mmax, b_value, epsilon, alph
 gamma_unif_log_prior <- function(params, threshold, b_value, epsilon, alpha, beta, upper_mmax = NULL) {
   mmax <- params[1]
   mean <- params[2]
+  stopifnot(!is.null(beta))
+  stopifnot(!is.null(alpha))
 
   if((mmax <= mean) | (b_value > epsilon)){
     log_prior <- -1e7

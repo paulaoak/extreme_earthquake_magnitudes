@@ -18,6 +18,28 @@ prior_sim_vector <- c('flat-flat', 'flat-gamma')
 n_data_sim_vector <- c(75, 125, 250, 500)
 
 
+simulation_results <- simulation_mcmc_1(mmax = mmax_sim, mean = mean_sim,
+                                        u = u_sim, n_data = n_data_sim_vector[1], n_iter = 1e4, n_burn = 1e3,
+                                        prior = prior_sim_vector[1],
+                                        b_value = b_value_sim, epsilon = epsilon_sim, upper_mmax = upper_mmax_sim)
+
+
+file_name_sim <- paste('mmax', mmax_sim,
+                       'mean', mean_sim,
+                       'u', u_sim,
+                       prior_sim, 'prior',
+                       n_data_sim, 'n_data', sep = '_')
+
+simulation_data <- read.csv(here::here('05-week','outputs',file_name_sim),
+                            colClasses=c("NULL", NA, NA), col.names = c('','mmax', 'mean'))
+
+simulation_data_df <- data.frame(mmax = c(simulation_data$mmax, simulation_data_flat_1$sigma_high_thres),
+                                 xi = c(simulation_data_flat_1$xi_all, simulation_data_flat_1$xi_high_thres),
+                                 type = rep(paste(n_data_sim, 'obs,', prior, 'prior', sep = ' '), length(simulation_data$mmax)))
+
+
+
+
 for(i in 1:length(n_data_sim_vector)){
   n_data_sim <- n_data_sim_vector[i]
   for(j in 1:length(prior_sim_vector)){
@@ -40,7 +62,7 @@ for(i in 1:length(n_data_sim_vector)){
 
     simulation_data_df <- data.frame(mmax = c(simulation_data$mmax, simulation_data_flat_1$sigma_high_thres),
                                     xi = c(simulation_data_flat_1$xi_all, simulation_data_flat_1$xi_high_thres),
-                                    threshold = rep(c('Variable', 'Constant'), each = length(simulation_data_flat_1$sigma_all)))
+                                    type = rep(paste(n_data_sim, 'obs,', prior, 'prior', sep = ' '), length(simulation_data$mmax)))
 
   }
 }
