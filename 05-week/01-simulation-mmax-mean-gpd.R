@@ -94,7 +94,7 @@ b_value_sim <- 1.8
 epsilon_sim <- 0.8
 upper_mmax_sim <- 6
 prior_sim_vector <- c('flat-flat', 'flat-gamma')
-n_data_sim_vector <- c(60, 125, 250, 500)
+n_data_sim_vector <- c(75, 125, 250, 500)
 
 
 for(i in 1:length(n_data_sim_vector)){
