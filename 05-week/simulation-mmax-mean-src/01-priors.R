@@ -19,7 +19,7 @@ library(quaketools)
 #It is important to notice that in this case mmax and mean are not independent
 #unlike when we specified a prior on the shape and scale parameters
 
-unif_log_prior <- function(params, threshold, upper_mmax, b_value, epsilon) {
+unif_log_prior <- function(params, threshold, upper_mmax, b_value, epsilon, alpha = NULL, beta = NULL) {
   mmax <- params[1]
   mean <- params[2]
 
@@ -36,7 +36,7 @@ unif_log_prior <- function(params, threshold, upper_mmax, b_value, epsilon) {
   return(log_prior)
 }
 
-gamma_unif_log_prior <- function(params, threshold, b_value, epsilon, alpha, beta) {
+gamma_unif_log_prior <- function(params, threshold, b_value, epsilon, alpha, beta, upper_mmax = NULL) {
   mmax <- params[1]
   mean <- params[2]
 
