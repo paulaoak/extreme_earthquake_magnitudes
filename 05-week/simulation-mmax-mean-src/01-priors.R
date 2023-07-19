@@ -37,6 +37,10 @@ unif_log_prior_try <- function(params, threshold, upper_mmax, b_value, epsilon, 
   return(log_prior)
 }
 
+#Uniform prior on mean parameter between threshold and b_value approximation +
+#an epsilon error and the difference mmax-mean has a gamma distribution
+#As before, mmax and mean are not independent
+
 gamma_unif_log_prior <- function(params, threshold, b_value, epsilon, alpha, beta, upper_mmax = NULL) {
   mmax <- params[1]
   mean <- params[2]
@@ -52,3 +56,58 @@ gamma_unif_log_prior <- function(params, threshold, b_value, epsilon, alpha, bet
 
   return(log_prior)
 }
+
+#Flat uninformative prior on mean and Mmax only including the constraint
+#threshold<mean<mmax
+flat_prior <- function(params, threshold) {
+  mmax <- params[1]
+  mean <- params[2]
+
+  if((mmax <= mean) | (mean <= threshold)){
+    log_prior <- -1e7
+  }
+  else{
+    log_prior <- 0
+  }
+
+  return(log_prior)
+}
+
+#Improper flat prior on the mean and gamma prior on the difference Mmax-mean
+gamma_flat_log_prior <- function(params, threshold, b_value, epsilon, alpha, beta, upper_mmax = NULL) {
+  mmax <- params[1]
+  mean <- params[2]
+  stopifnot(!is.null(beta))
+  stopifnot(!is.null(alpha))
+
+  if((mmax <= mean) | (mean <= threshold)){
+    log_prior <- -1e7
+  }
+  else{
+    log_prior <- dgamma(mmax - mean, shape = alpha, rate = beta, log = TRUE)
+  }
+
+  return(log_prior)
+}
+
+
+#Improper flat prior on the mean and gamma prior on the difference Mmax-mean
+gamma_gamma_log_prior <- function(params, threshold, alpha1, beta1, alpha2, beta2) {
+  mmax <- params[1]
+  mean <- params[2]
+  stopifnot(!is.null(beta1))
+  stopifnot(!is.null(alpha1))
+  stopifnot(!is.null(beta2))
+  stopifnot(!is.null(alpha2))
+
+  if((mmax <= mean) | (mean <= threshold)){
+    log_prior <- -1e7
+  }
+  else{
+    log_prior <- dgamma(mean - threshold, shape = alpha1, rate = beta1, log = TRUE) +
+                 dgamma(mmax - mean, shape = alpha2, rate = beta2, log = TRUE)
+  }
+
+  return(log_prior)
+}
+
