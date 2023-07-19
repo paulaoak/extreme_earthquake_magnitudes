@@ -12,7 +12,7 @@ simulation_mcmc_2 <- function(mmax, mean,
                               mean_max = 4, mmax_max = 12,
                               prior = c('unif-unif', 'unif-gamma', 'flat-flat', 'flat-gamma', 'gamma-gamma'),
                               b_value = NULL, epsilon = NULL, upper_mmax = NULL, alpha1 = NULL, beta1 = NULL, alpha2 = NULL, beta2 = NULL,
-                              sd_mmax = c(0.15, 0.25), sd_mean = c(0.15, 0.25)){
+                              sd_mmax = c(1.15, 2.25), sd_mean = c(0.10)){
 
   prior <- match.arg(prior)
 
@@ -31,7 +31,7 @@ simulation_mcmc_2 <- function(mmax, mean,
   set.seed(111)
   init_mean <- runif(n_starting_points, min = u, max = mean_max)
   init_mmax <- runif(n_starting_points, min = init_mean, max = mmax_max)
-  params_initial_grid <- matrix(init_mmax, init_mean, ncol = 2)
+  params_initial_grid <- matrix(c(init_mmax, init_mean), ncol = 2)
 
   ess_grid <- sapply(1:n_combinations, function(i){
     sd_mmax <- grid[i, 1]
