@@ -11,7 +11,7 @@ simulation_mcmc_1 <- function(mmax, mean,
                             u, n_data = 500, n_iter = 1e4, n_burn = 1e3,
                             prior = c('flat-flat', 'flat-gamma'),
                             b_value, epsilon, upper_mmax = NULL, alpha = NULL, beta = NULL,
-                            sd_mmax = c(0.2, 0.15, 0.1, 0.05), sd_mean = c(0.2, 0.15, 0.1, 0.05)){
+                            sd_mmax = c(0.1, 0.05), sd_mean = c(0.9)){
 
   prior <- match.arg(prior)
 
@@ -70,6 +70,8 @@ simulation_mcmc_1 <- function(mmax, mean,
     posterior_mean[[j]] <- mcmc(posterior_samples[2, ((n_iter - n_burn + 1) * (j - 1) + 1): ((n_iter - n_burn + 1) * j)])
   }
 
+  traceplot(posterior_mmax)
+
   # Convergence diagnostics
   upper_ci_mmax <- gelman.diag(mcmc.list(posterior_mmax))[1]$psrf[2]
   #stopifnot('Chains with samples of sigma_u have not converge to the same distribution.' = upper_ci_sigma_u < 1.2)
@@ -77,7 +79,7 @@ simulation_mcmc_1 <- function(mmax, mean,
   #stopifnot('Chains with samples of xi have not converge to the same distribution.' = upper_ci_xi < 1.2)
 
   if((upper_ci_mmax > 1.25) || (upper_ci_mean > 1.25)){posterior_samples<- c(0,0)}
-
+  print(c(upper_ci_mmax, upper_ci_mean))
   return(posterior_samples)
 
 
@@ -87,15 +89,15 @@ simulation_mcmc_1 <- function(mmax, mean,
 ############################
 #SIMULATION 1
 ############################
-mmax_sim <- 8.6
+mmax_sim <- 7.6
 mean_sim <- 2.1
 u_sim <- 1.45
 b_value_sim <- 1.8
 epsilon_sim <- 1.5
-upper_mmax_sim <- 10
-alpha_sim <- 4
+upper_mmax_sim <- 8.5
+alpha_sim <- 1
 beta_sim <- 0.5
-prior_sim_vector <- c('flat-flat', 'flat-gamma')
+prior_sim_vector <- c('flat-gamma', 'flat-flat')
 n_data_sim_vector <- c(60, 125, 250, 500)
 
 
@@ -120,7 +122,3 @@ for(i in 1:length(n_data_sim_vector)){
               here::here('05-week','outputs',file_name_sim))
   }
 }
-
-
-
-

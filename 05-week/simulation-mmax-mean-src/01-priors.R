@@ -14,19 +14,19 @@ library(quaketools)
 ###########################
 
 #Uniform prior on mean parameter between threshold and b_value approximation +
-#an epsilon error and the mmax paramter uniform prior between the mean and an
+#an epsilon error and the mmax parameter uniform prior between the mean and an
 #upper bound for mmax
 #It is important to notice that in this case mmax and mean are not independent
 #unlike when we specified a prior on the shape and scale parameters
 
-unif_log_prior <- function(params, threshold, upper_mmax, b_value, epsilon, alpha = NULL, beta = NULL) {
+unif_log_prior_try <- function(params, threshold, upper_mmax, b_value, epsilon, alpha = NULL, beta = NULL) {
   mmax <- params[1]
   mean <- params[2]
   stopifnot(!is.null(upper_mmax))
 
   stopifnot(b_value + epsilon < upper_mmax)
 
-  if(mean >= mmax){
+  if((mean >= mmax) | (mean <= threshold) | (mean >= b_value+epsilon) | (mmax >= upper_mmax)){
     log_prior <- -1e7
   }
   else{
@@ -43,7 +43,7 @@ gamma_unif_log_prior <- function(params, threshold, b_value, epsilon, alpha, bet
   stopifnot(!is.null(beta))
   stopifnot(!is.null(alpha))
 
-  if((mmax <= mean) | (b_value > epsilon)){
+  if((mmax <= mean) | (mean <= threshold) | (mean >= b_value+epsilon)){
     log_prior <- -1e7
   }
   else{
