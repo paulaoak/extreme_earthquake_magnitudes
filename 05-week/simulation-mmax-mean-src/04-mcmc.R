@@ -44,7 +44,7 @@ bayesian_estimation_gpd_mmax_mean <- function(mmax_mean_initial, x, u, n_iter, n
     #MH for mean
     log_posterior_mean <- function (mean_1){log_posterior_gpd_mmax_mean(params = c(mmax, mean_1), x = x, threshold = u, prior = prior_choice, upper_mmax = upper_mmax, b_value = b_value, epsilon = epsilon, alpha = alpha, beta = beta, alpha2 = alpha2, beta2 = beta2)}
     mean <- mh_step_random_walk_positive (mean, log_posterior_mean, sd = sd_mean, a = u, b = Inf)
-    print(c(mmax, mean, log_posterior_mmax(mmax), log_posterior_mean(mean)))
+    #print(c(mmax, mean, log_posterior_mmax(mmax), log_posterior_mean(mean)))
 
     params_samples[,iter] <- c(mmax, mean)
   }
