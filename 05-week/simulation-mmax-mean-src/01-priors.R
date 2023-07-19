@@ -59,7 +59,7 @@ gamma_unif_log_prior <- function(params, threshold, b_value, epsilon, alpha1, be
 
 #Flat uninformative prior on mean and Mmax only including the constraint
 #threshold<mean<mmax
-flat_prior <- function(params, threshold, upper_mmax, b_value, epsilon, alpha1 = NULL, beta1 = NULL, alpha2=NULL, beta2=NULL) {
+flat_log_prior <- function(params, threshold, upper_mmax, b_value, epsilon, alpha1 = NULL, beta1 = NULL, alpha2=NULL, beta2=NULL) {
   mmax <- params[1]
   mean <- params[2]
 
