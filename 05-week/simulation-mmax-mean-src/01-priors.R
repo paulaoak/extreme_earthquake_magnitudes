@@ -19,7 +19,7 @@ library(quaketools)
 #It is important to notice that in this case mmax and mean are not independent
 #unlike when we specified a prior on the shape and scale parameters
 
-unif_log_prior_try <- function(params, threshold, upper_mmax, b_value, epsilon, alpha = NULL, beta = NULL) {
+unif_log_prior_try <- function(params, threshold, upper_mmax, b_value, epsilon, alpha1 = NULL, beta1 = NULL, alpha2=NULL, beta2=NULL) {
   mmax <- params[1]
   mean <- params[2]
   stopifnot(!is.null(upper_mmax))
@@ -41,17 +41,17 @@ unif_log_prior_try <- function(params, threshold, upper_mmax, b_value, epsilon, 
 #an epsilon error and the difference mmax-mean has a gamma distribution
 #As before, mmax and mean are not independent
 
-gamma_unif_log_prior <- function(params, threshold, b_value, epsilon, alpha, beta, upper_mmax = NULL) {
+gamma_unif_log_prior <- function(params, threshold, b_value, epsilon, alpha1, beta1, upper_mmax = NULL, alpha2=NULL, beta2=NULL) {
   mmax <- params[1]
   mean <- params[2]
-  stopifnot(!is.null(beta))
-  stopifnot(!is.null(alpha))
+  stopifnot(!is.null(beta1))
+  stopifnot(!is.null(alpha1))
 
   if((mmax <= mean) | (mean <= threshold) | (mean >= b_value+epsilon)){
     log_prior <- -1e7
   }
   else{
-    log_prior <- -log(b_value + epsilon - threshold) + dgamma(mmax - mean, shape = alpha, rate = beta, log = TRUE)
+    log_prior <- -log(b_value + epsilon - threshold) + dgamma(mmax - mean, shape = alpha1, rate = beta1, log = TRUE)
   }
 
   return(log_prior)
@@ -59,7 +59,7 @@ gamma_unif_log_prior <- function(params, threshold, b_value, epsilon, alpha, bet
 
 #Flat uninformative prior on mean and Mmax only including the constraint
 #threshold<mean<mmax
-flat_prior <- function(params, threshold) {
+flat_prior <- function(params, threshold, upper_mmax, b_value, epsilon, alpha1 = NULL, beta1 = NULL, alpha2=NULL, beta2=NULL) {
   mmax <- params[1]
   mean <- params[2]
 
@@ -74,17 +74,17 @@ flat_prior <- function(params, threshold) {
 }
 
 #Improper flat prior on the mean and gamma prior on the difference Mmax-mean
-gamma_flat_log_prior <- function(params, threshold, b_value, epsilon, alpha, beta, upper_mmax = NULL) {
+gamma_flat_log_prior <- function(params, threshold, b_value = NULL, epsilon = NULL, alpha1, beta1, upper_mmax = NULL, alpha2=NULL, beta2=NULL) {
   mmax <- params[1]
   mean <- params[2]
-  stopifnot(!is.null(beta))
-  stopifnot(!is.null(alpha))
+  stopifnot(!is.null(beta1))
+  stopifnot(!is.null(alpha1))
 
   if((mmax <= mean) | (mean <= threshold)){
     log_prior <- -1e7
   }
   else{
-    log_prior <- dgamma(mmax - mean, shape = alpha, rate = beta, log = TRUE)
+    log_prior <- dgamma(mmax - mean, shape = alpha1, rate = beta1, log = TRUE)
   }
 
   return(log_prior)
@@ -92,7 +92,7 @@ gamma_flat_log_prior <- function(params, threshold, b_value, epsilon, alpha, bet
 
 
 #Improper flat prior on the mean and gamma prior on the difference Mmax-mean
-gamma_gamma_log_prior <- function(params, threshold, alpha1, beta1, alpha2, beta2) {
+gamma_gamma_log_prior <- function(params, threshold, alpha1, beta1, alpha2, beta2, upper_mmax=NULL, b_value=NULL, epsilon=NULL) {
   mmax <- params[1]
   mean <- params[2]
   stopifnot(!is.null(beta1))
