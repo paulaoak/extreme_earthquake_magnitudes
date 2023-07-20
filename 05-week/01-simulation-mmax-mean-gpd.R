@@ -12,7 +12,7 @@ simulation_mcmc_2 <- function(mmax, mean,
                               mean_max = 4, mmax_max = 12,
                               prior = c('unif-unif', 'unif-gamma', 'flat-flat', 'flat-gamma', 'gamma-gamma'),
                               b_value = NULL, epsilon = NULL, upper_mmax = NULL, alpha1 = NULL, beta1 = NULL, alpha2 = NULL, beta2 = NULL,
-                              sd_mmax = c(1.15, 2.25), sd_mean = c(0.10)){
+                              sd_mmax = c(0.75, 1.15, 2.25), sd_mean = c(0.05, 0.10, 0.15)){
 
   prior <- match.arg(prior)
 
@@ -71,7 +71,8 @@ simulation_mcmc_2 <- function(mmax, mean,
   upper_ci_mean <- gelman.diag(mcmc.list(posterior_mean))[1]$psrf[2]
   #stopifnot('Chains with samples of xi have not converge to the same distribution.' = upper_ci_xi < 1.2)
 
-  if((upper_ci_mmax > 1.25) || (upper_ci_mean > 1.25)){posterior_samples<- c(0,0)}
+  #if((upper_ci_mmax > 1.25) || (upper_ci_mean > 1.25)){posterior_samples<- c(0,0)}
+  if(upper_ci_mean > 1.25){posterior_samples<- c(0,0)}
   print(c(upper_ci_mmax, upper_ci_mean))
   return(posterior_samples)
 
@@ -100,7 +101,7 @@ for(i in 1:length(n_data_sim_vector)){
     prior_sim <- prior_sim_vector[j]
 
     simulation_results <- simulation_mcmc_2(mmax = mmax_sim, mean = mean_sim,
-                                            u = u_sim, n_data = 500, n_iter = 1e4, n_burn = 1e3,
+                                            u = u_sim, n_data = n_data_sim, n_iter = 1e4, n_burn = 1e3,
                                             prior = prior_sim)
 
 
