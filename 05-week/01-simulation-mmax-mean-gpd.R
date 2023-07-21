@@ -12,7 +12,7 @@ simulation_mcmc_2 <- function(mmax, mean,
                               mean_max = 4, mmax_max = 12,
                               prior = c('unif-unif', 'unif-gamma', 'flat-flat', 'flat-gamma', 'gamma-gamma'),
                               b_value = NULL, epsilon = NULL, upper_mmax = NULL, alpha1 = NULL, beta1 = NULL, alpha2 = NULL, beta2 = NULL,
-                              sd_mmax = c(0.75, 1.15, 2.25), sd_mean = c(0.05, 0.10, 0.15)){
+                              sd_mmax = c(1.15, 2.25), sd_mean = c(0.05, 0.10, 0.15)){
 
   prior <- match.arg(prior)
 
@@ -92,8 +92,8 @@ upper_mmax_sim <- 8.5
 alpha_sim <- 1
 beta_sim <- 0.5
 prior_sim_vector <- c('flat-flat')
-n_data_sim_vector <- c(60, 125, 250, 500)
-
+#n_data_sim_vector <- c(60, 125, 250, 500)
+n_data_sim_vector <- c(500)
 
 for(i in 1:length(n_data_sim_vector)){
   n_data_sim <- n_data_sim_vector[i]
@@ -102,7 +102,88 @@ for(i in 1:length(n_data_sim_vector)){
 
     simulation_results <- simulation_mcmc_2(mmax = mmax_sim, mean = mean_sim,
                                             u = u_sim, n_data = n_data_sim, n_iter = 1e4, n_burn = 1e3,
-                                            prior = prior_sim)
+                                            prior = prior_sim, sd_mean = c(0.10))
+
+
+    file_name_sim <- paste('mmax', mmax_sim,
+                           'mean', mean_sim,
+                           'u', u_sim,
+                           prior_sim, 'prior',
+                           n_data_sim, 'n_data', sep = '_')
+
+    write.csv(t(simulation_results),
+              here::here('05-week','outputs_2',file_name_sim))
+  }
+}
+
+
+
+############################
+#SIMULATION 2
+############################
+mmax_sim <- 7.6
+mean_sim <- 2.1
+u_sim <- 1.45
+b_value_sim <- 1.8
+epsilon_sim <- 1.5
+upper_mmax_sim <- 8.5
+alpha_sim_1 <- 1
+beta_sim_1 <- 0.5
+alpha_sim_2 <- 1
+beta_sim_2 <- 0.5
+prior_sim_vector <- c('unif-unif', 'unif-gamma', 'flat-gamma', 'gamma-gamma')
+n_data_sim_vector <- c(60, 125, 250, 500)
+#n_data_sim_vector <- c(500)
+
+for(i in 1:length(n_data_sim_vector)){
+  n_data_sim <- n_data_sim_vector[i]
+  for(j in 1:length(prior_sim_vector)){
+    prior_sim <- prior_sim_vector[j]
+
+    simulation_results <- simulation_mcmc_2(mmax = mmax_sim, mean = mean_sim,
+                                            u = u_sim, n_data = n_data_sim, n_iter = 1e4, n_burn = 1e3,
+                                            prior = prior_sim, sd_mean = c(0.10),
+                                            b_value = b_value_sim, epsilon = epsilon_sim, upper_mmax = upper_mmax_sim, alpha1 = alpha_sim_1, beta1 = beta_sim_1, alpha2 = alpha_sim_2, beta2 = beta_sim_2)
+
+
+    file_name_sim <- paste('mmax', mmax_sim,
+                           'mean', mean_sim,
+                           'u', u_sim,
+                           prior_sim, 'prior',
+                           n_data_sim, 'n_data', sep = '_')
+
+    write.csv(t(simulation_results),
+              here::here('05-week','outputs_2',file_name_sim))
+  }
+}
+
+
+############################
+#SIMULATION 3
+############################
+mmax_sim <- 7.6
+mean_sim <- 2.1
+u_sim <- 1.45
+b_value_sim <- 1.8
+epsilon_sim <- 1.5
+upper_mmax_sim <- 8.5
+alpha_sim_1 <- 1
+beta_sim_1 <- 0.5
+alpha_sim_2 <- 1
+beta_sim_2 <- 0.5
+prior_sim_vector <- c('unif-unif', 'unif-gamma', 'flat-gamma', 'gamma-gamma')
+n_data_sim_vector <- c(25, 35, 45, 55)
+#n_data_sim_vector <- c(500)
+
+for(i in 1:length(n_data_sim_vector)){
+  n_data_sim <- n_data_sim_vector[i]
+  for(j in 1:length(prior_sim_vector)){
+    prior_sim <- prior_sim_vector[j]
+
+    simulation_results <- simulation_mcmc_2(mmax = mmax_sim, mean = mean_sim,
+                                            u = u_sim, n_data = n_data_sim, n_iter = 1e4, n_burn = 1e3,
+                                            prior = prior_sim, sd_mean = c(0.10),
+                                            b_value = b_value_sim, epsilon = epsilon_sim, upper_mmax = upper_mmax_sim, alpha1 = alpha_sim_1, beta1 = beta_sim_1, alpha2 = alpha_sim_2, beta2 = beta_sim_2)
 
 
     file_name_sim <- paste('mmax', mmax_sim,
