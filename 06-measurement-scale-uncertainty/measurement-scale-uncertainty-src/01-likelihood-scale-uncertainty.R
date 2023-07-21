@@ -97,7 +97,7 @@ llh_gpd_scale <- function(sigxi_lambda, u, x, negative = FALSE){
   #check all scale parameters are positive
   condition_1 <- sig <= 0
   #check all x below upper end-point (UEP) (if it exists)
-  condition_2 <- (xi < 0) && (max(x) >= (u - sig / xi))
+  condition_2 <- (xi < 0) && (max(x_mod) >= (u_mod - sig / xi))
 
   if(condition_1 || condition_2){
     llh <- -10e6
