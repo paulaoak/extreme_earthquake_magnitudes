@@ -5,27 +5,26 @@
 
 #Likelihood function for the threshold exceedance model under penultimate
 #approximation
-llh_gpd_scale_penultimate <- function(sigxi, lambda, c, u, x, negative = FALSE){
+llh_gpd_scale_penultimate <- function(sigxi_lambda_c, u, x, negative = FALSE){
 
   # Check inputs
   stopifnot(exprs = {
     is.numeric(u)
     length(u) == 1
-    is.numeric(lambda)
-    length(lambda) == 1
-    is.numeric(c)
-    length(c) == 1
-    is.numeric(sigxi)
-    length(sigxi)==2 #unique shape and scale_u parameters
+    is.numeric(sigxi_lambda_c)
+    length(sigxi_lambda_c)==4 #unique shape, scale_u, lambda and c parameters
     is.logical(negative)
     u <= min(v)
   })
 
   # GPD parameters
-  sig <- sigxi[1]
+  lambda <- sigxi_lambda_c[3]
+  c <- sigxi_lambda_c[4]
+  sig <- sigxi_lambda_c[1]
   sig_y <- sig * u ^(lambda-1)
-  xi <- sigxi[2]
+  xi <- sigxi_lambda_c[2]
   xi_y <- xi + c*(lambda-1)
+
 
   if(lambda==0){
     x_mod <- log(x)
@@ -62,23 +61,22 @@ llh_gpd_scale_penultimate <- function(sigxi, lambda, c, u, x, negative = FALSE){
 
 #Likelihood function under the assumption that the GP tail form applies for a
 #range of choices of measurement scale lambda
-llh_gpd_scale <- function(sigxi, lambda, u, x, negative = FALSE){
+llh_gpd_scale <- function(sigxi_lambda, u, x, negative = FALSE){
 
   # Check inputs
   stopifnot(exprs = {
     is.numeric(u)
     length(u) == 1
-    is.numeric(lambda)
-    length(lambda) == 1
-    is.numeric(sigxi)
-    length(sigxi)==2 #unique shape and scale_u parameters
+    is.numeric(sigxi_lambda)
+    length(sigxi_lambda)==3 #unique shape and scale_u parameters
     is.logical(negative)
     u <= min(v)
   })
 
   # GPD parameters
-  sig <- sigxi[1]
-  xi <- sigxi[2]
+  lambda <- sigxi_lambda[3]
+  sig <- sigxi_lambda[1]
+  xi <- sigxi_lambda[2]
 
   if(lambda==0){
     x_mod <- log(x)
