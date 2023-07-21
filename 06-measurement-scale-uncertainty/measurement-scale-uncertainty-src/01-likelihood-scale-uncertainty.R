@@ -21,7 +21,7 @@ llh_gpd_scale_penultimate <- function(sigxi, lambda, c, u, x, negative = FALSE){
     u <= min(v)
   })
 
-  # Latent GPD parameters
+  # GPD parameters
   sig <- sigxi[1]
   sig_y <- sig * u ^(lambda-1)
   xi <- sigxi[2]
@@ -76,7 +76,7 @@ llh_gpd_scale <- function(sigxi, lambda, u, x, negative = FALSE){
     u <= min(v)
   })
 
-  # Latent GPD parameters
+  # GPD parameters
   sig <- sigxi[1]
   xi <- sigxi[2]
 
