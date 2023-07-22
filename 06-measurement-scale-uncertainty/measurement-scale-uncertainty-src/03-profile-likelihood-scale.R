@@ -109,3 +109,54 @@ profile_mle_xi_lambda <- function(lambda_xi, u, x, sig, method =  "Nelder-Mead",
 
   return(out)
 }
+
+
+profile_mle_xi_lambda_new <- function(lambda, xi, u, x, sig, method =  "Nelder-Mead", maxit = 10000, ...){
+
+  # Check inputs
+  stopifnot(exprs = {
+    is.numeric(u)
+    length(u) == 1
+    is.numeric(lambda_xi)
+    length(lambda_xi)==2
+  }
+  )
+
+  # GPD parameters
+  xi_y <- xi
+  sig_y_0 <- sig * u^(lambda-1)
+
+  if(lambda==0){
+    x_mod <- log(x)
+    u_mod <- log(u)
+  }
+  else{
+    x_mod <- (x^(lambda)-1)/lambda
+    u_mod <- (u^(lambda)-1)/lambda
+  }
+
+  # Check valid starting point
+  condition <- (xi_y < 0) && (max(x_mod) >= (u_mod - sig_y_0 / xi_y))
+  if(condition){stop('Invalid starting point. Data above upper end point of distribution.')}
+  stopifnot(sig_y_0>0)
+
+  # Numerically minimise negative profile log-likelihood for fixed lambda
+  estimate <- optim(fn = profile_llh_gpd_scale_penultimate,
+                    par = sig,
+                    u = u,
+                    x = x,
+                    xi = xi_y,
+                    lambda = lambda,
+                    negative = TRUE,
+                    hessian = FALSE,
+                    method = method,
+                    control = list(maxit = maxit, ...))
+  if(estimate$convergence)
+    warning("optimization may not have succeeded")
+
+  # Format output
+  out <-  estimate$value
+
+  return(out)
+}
+
