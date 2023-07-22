@@ -60,7 +60,7 @@ profile_mle_c <- function(u, x, sigxi, lambda_min_grid, lambda_max_grid, step_gr
 
 # Estimate c using profile log-likelihood
 #MLE for the threshold exceedance model under penultimate approximation
-profile_mle_xi_lambda <- function(u, x, xi_lambda, sig, method =  "Nelder-Mead", maxit = 10000, ...){
+profile_mle_xi_lambda <- function(xi_lambda, u, x, sig, method =  "Nelder-Mead", maxit = 10000, ...){
 
   # Check inputs
   stopifnot(exprs = {
