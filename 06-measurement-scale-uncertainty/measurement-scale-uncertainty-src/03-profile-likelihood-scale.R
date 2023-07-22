@@ -139,7 +139,7 @@ profile_mle_xi_lambda_new <- function(lambda, xi, u, x, sig, method =  "Nelder-M
 
   # Check valid starting point
   condition <- (xi_y < 0) && (max(x_mod) >= (u_mod - sig_y_0 / xi_y))
-  if(condition){stop('Invalid starting point. Data above upper end point of distribution.')}
+  #if(condition){stop('Invalid starting point. Data above upper end point of distribution.')}
   stopifnot(sig_y_0>0)
 
   # Numerically minimise negative profile log-likelihood for fixed lambda
@@ -152,6 +152,8 @@ profile_mle_xi_lambda_new <- function(lambda, xi, u, x, sig, method =  "Nelder-M
                     negative = TRUE,
                     hessian = FALSE,
                     method = method,
+                    lower = 0.01,
+                    upper = 5,
                     control = list(maxit = maxit, ...))
   if(estimate$convergence)
     warning("optimization may not have succeeded")
