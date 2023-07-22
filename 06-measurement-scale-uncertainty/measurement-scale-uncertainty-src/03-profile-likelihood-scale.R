@@ -60,20 +60,20 @@ profile_mle_c <- function(u, x, sigxi, lambda_min_grid, lambda_max_grid, step_gr
 
 # Estimate c using profile log-likelihood
 #MLE for the threshold exceedance model under penultimate approximation
-profile_mle_xi_lambda <- function(xi_lambda, u, x, sig, method =  "Nelder-Mead", maxit = 10000, ...){
+profile_mle_xi_lambda <- function(lambda_xi, u, x, sig, method =  "Nelder-Mead", maxit = 10000, ...){
 
   # Check inputs
   stopifnot(exprs = {
     is.numeric(u)
     length(u) == 1
-    is.numeric(xi_lambda)
-    length(xi_lambda)==2
+    is.numeric(lambda_xi)
+    length(lambda_xi)==2
   }
   )
 
   # GPD parameters
-  xi_y <- xi_lambda[1]
-  lambda <- xi_lambda[2]
+  xi_y <- lambda_xi[2]
+  lambda <- lambda_xi[1]
   sig_y_0 <- sig * u^(lambda-1)
 
   if(lambda==0){
