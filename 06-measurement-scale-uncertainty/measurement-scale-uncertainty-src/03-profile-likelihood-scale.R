@@ -117,8 +117,10 @@ profile_mle_xi_lambda_new <- function(lambda, xi, u, x, sig, method =  "Nelder-M
   stopifnot(exprs = {
     is.numeric(u)
     length(u) == 1
-    is.numeric(lambda_xi)
-    length(lambda_xi)==2
+    is.numeric(xi)
+    length(xi)==1
+    is.numeric(lambda)
+    length(lambda)==1
   }
   )
 
