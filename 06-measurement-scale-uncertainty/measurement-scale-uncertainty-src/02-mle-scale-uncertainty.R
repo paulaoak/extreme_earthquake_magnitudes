@@ -50,7 +50,7 @@ mle_gpd_scale_penultimate <- function(sigxi_lambda_c, u, x, llh_val = TRUE, hess
 
 #Likelihood function under the assumption that the GP tail form applies for a
 #range of choices of measurement scale lambda
-mle_gpd_scale_penultimate <- function(sigxi_lambda, u, x, llh_val = TRUE, hessian = FALSE, method =  "Nelder-Mead", maxit = 10000, ...){
+mle_gpd_scale <- function(sigxi_lambda, u, x, llh_val = TRUE, hessian = FALSE, method =  "Nelder-Mead", maxit = 10000, ...){
 
   # Check inputs
   stopifnot(exprs = {
