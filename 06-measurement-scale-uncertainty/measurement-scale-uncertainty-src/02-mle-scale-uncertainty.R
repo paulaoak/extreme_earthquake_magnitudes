@@ -64,11 +64,22 @@ mle_gpd_scale <- function(sigxi_lambda, u, x, llh_val = TRUE, hessian = FALSE, m
   )
 
   # GPD parameters
+  lambda <- sigxi_lambda[3]
   sig_0 <- sigxi_lambda[1]
   xi_0 <- sigxi_lambda[2]
 
+  # Modified observations and threshold
+  if(lambda==0){
+    x_mod <- log(x)
+    u_mod <- log(u)
+  }
+  else{
+    x_mod <- (x^(lambda)-1)/lambda
+    u_mod <- (u^(lambda)-1)/lambda
+  }
+
   # Check valid starting point
-  condition <- (xi_0 < 0) && (max(x) >= (u - sig_0 / xi_0))
+  condition <- (xi_0 < 0) && (max(x_mod) >= (u_mod - sig_0 / xi_0))
   if(condition){stop('Invalid starting point. Data above upper end point of distribution.')}
   stopifnot(sig_0>0)
 
@@ -104,26 +115,36 @@ mle_gpd_scale_penultimate_profile <- function(sigxi_lambda, u, x, llh_val = TRUE
     is.numeric(u)
     length(u) == 1
     is.numeric(sigxi_lambda)
-    length(sigxi_lambda_c)==3 #unique shape, scale, lambda parameters
+    length(sigxi_lambda)==3 #unique shape, scale, lambda parameters
     is.logical(llh_val)
     is.logical(hessian)
   }
   )
 
   # GPD parameters
-  sig_0 <- sigxi_lambda_c[1]
-  sig
-  xi_0 <- sigxi_lambda_c[2]
+  lambda <-sigxi_lambda[3]
+  sig_0 <- sigxi_lambda[1]
+  sig_y_0 <- sig * u ^(lambda-1)
+  xi_y_0 <- sigxi_lambda[2]
 
+  # Modified observations and threshold
+  if(lambda==0){
+    x_mod <- log(x)
+    u_mod <- log(u)
+  }
+  else{
+    x_mod <- (x^(lambda)-1)/lambda
+    u_mod <- (u^(lambda)-1)/lambda
+  }
 
   # Check valid starting point
-  condition <- (xi_0 < 0) && (max(x) >= (u - sig_0 / xi_0))
+  condition <- (xi_y_0 < 0) && (max(x_mod) >= (u_mod - sig_y_0 / xi_y_0))
   if(condition){stop('Invalid starting point. Data above upper end point of distribution.')}
   stopifnot(sig_0>0)
 
   # Numerically minimise negative log-likelihood
-  estimate <- optim(fn = llh_gpd_scale_penultimate,
-                    par = sigxi_lambda_c,
+  estimate <- optim(fn = llh_gpd_scale_penultimate_for_profile,
+                    par = sigxi_lambda,
                     u = u,
                     x = x,
                     negative = TRUE,
