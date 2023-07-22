@@ -12,5 +12,8 @@ source(here::here("06-measurement-scale-uncertainty", "measurement-scale-uncerta
 source(here::here("06-measurement-scale-uncertainty", "measurement-scale-uncertainty-src",
                   "03-profile-likelihood-scale.R"))
 
+#source(here::here("06-measurement-scale-uncertainty", "measurement-scale-uncertainty-src",
+#                  "04-contours-profile-likelihood.R"))
+
 source(here::here("06-measurement-scale-uncertainty", "measurement-scale-uncertainty-src",
-                  "04-contours-profile-likelihood.R"))
+                  "05-weighted-least-squares.R"))
