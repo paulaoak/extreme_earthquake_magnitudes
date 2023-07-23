@@ -23,7 +23,6 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
   # Generate data
   set.seed(123)
   x <- rgpd(n = n_data, scale = sigma, shape = xi, shift = u)
-  print(length(x))
   if (scale_transformation == TRUE){
     # Data under scale transformation
     x <- log(x)
