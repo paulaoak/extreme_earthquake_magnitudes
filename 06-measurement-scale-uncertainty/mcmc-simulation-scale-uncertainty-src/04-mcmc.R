@@ -7,7 +7,7 @@
 ###########################
 # GPD ACCOUNTING FOR ROUNDING UNDER PENULTIMATE APPROXIMATION
 ###########################
-bayesian_estimation_gpd_scale_penultimate <- function(sigxi_lambda_initial, c, x, u, n_iter, n_burn, sd_xi, sd_sigma, min_lamda, max_lambda, prior_choice = c('flat', 'mdi', 'jeffreys')){
+bayesian_estimation_gpd_scale_penultimate <- function(sigxi_lambda_initial, c, x, u, n_iter, n_burn, sd_xi, sd_sigma, min_lambda, max_lambda, prior_choice = c('flat', 'mdi', 'jeffreys')){
 
   prior_choice <- match.arg(prior_choice)
   if(prior_choice == 'flat'){
