@@ -107,6 +107,7 @@ simulation_mcmc_scale <- function(xi, sigma,
   if (scale_transformation == TRUE){
     # Data under scale transformation
     x <- log(x)
+    u <- log(u)
   }
 
   #Perform grid search to find optimal variances for the random walk
