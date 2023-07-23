@@ -2,7 +2,6 @@
 # LOG-PRIORS
 ###########################
 # Import libraries
-devtools::install_github('paulaoak/quaketools')
 library(quaketools)
 
 #Define the different uninformative prior functions for the GPD parameters
