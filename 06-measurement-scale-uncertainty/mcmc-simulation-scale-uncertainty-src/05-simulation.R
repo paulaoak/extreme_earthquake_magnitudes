@@ -20,11 +20,6 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
 
   prior <- match.arg(prior)
 
-  # Obtain estimate of c using weighted least squares regression
-  wlm_c <- estimate_c_penultimate(min_lambda = min_lambda, max_lambda = max_lambda, step_lambda = step_lambda,
-                                  min_xi = min_xi, max_xi = max_xi, step_xi = step_xi, u = u, x = x)
-  c <- wlm_c[1]
-
   # Generate data
   set.seed(123)
   x <- rgpd(n = n_data, scale = sigma, shape = xi, shift = u)
@@ -34,6 +29,11 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
     x <- log(x)
     u <- log(u)
   }
+
+  # Obtain estimate of c using weighted least squares regression
+  wlm_c <- estimate_c_penultimate(min_lambda = min_lambda, max_lambda = max_lambda, step_lambda = step_lambda,
+                                  min_xi = min_xi, max_xi = max_xi, step_xi = step_xi, u = u, x = x)
+  c <- wlm_c[1]
 
   #Perform grid search to find optimal variances for the random walk
   n_iter_grid <- 1e3
