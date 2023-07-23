@@ -33,7 +33,7 @@ bayesian_estimation_gpd_scale_penultimate <- function(sigxi_lambda_initial, c, x
 
     #MH for scale parameter
     log_posterior_sig <- function (scale){log_posterior_gpd_scale_penultimate(params = c(scale, xi, lambda), c = c, x = x, u = u, prior = prior_choice)}
-    sig <- mh_step_random_walk_positive (sig, log_posterior_sig, sd = sd_sigma)
+    sig <- mh_step_random_walk_positive (sig, log_posterior_sig, sd = sd_sigma, a = 0)
 
     #MH for shape parameter
     log_posterior_xi <- function (shape){log_posterior_gpd_scale_penultimate(params = c(sig, shape, lambda), c = c, x = x, u = u, prior = prior_choice)}
