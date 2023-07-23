@@ -52,7 +52,7 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
     ess_start <- sapply(1:n_starting_points, function(j){
 
       params_samples <- bayesian_estimation_gpd_scale_penultimate(sigxi_lambda_initial = params_initial_grid[j,], c = c, x = x, u = u, n_iter = n_iter_grid,
-                                                      n_burn = n_burn_grid, sd_xi = sd_xi, sd_sigma = sd_sigma, min_lamda = min_lamda, max_lambda = max_lambda, prior_choice = prior)
+                                                      n_burn = n_burn_grid, sd_xi = sd_xi, sd_sigma = sd_sigma, min_lambda = min_lambda, max_lambda = max_lambda, prior_choice = prior)
       effectiveSize(t(params_samples))
 
     })
@@ -69,7 +69,7 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
 
   for(j in 1:n_starting_points) {
     posterior_samples[, ((n_iter - n_burn + 1) * (j - 1) + 1): ((n_iter - n_burn + 1) * j)] <- bayesian_estimation_gpd_scale_penultimate(sigxi_lambda_initial = params_initial_grid[j,], c = c, x = x, u = u, n_iter = n_iter,
-                                                                                                                             n_burn = n_burn, sd_xi = optim_sig_xi_sig[[1]], sd_sigma = optim_sig_xi_sig[[2]], min_lamda = min_lamda, max_lambda = max_lambda, prior_choice = prior)
+                                                                                                                             n_burn = n_burn, sd_xi = optim_sig_xi_sig[[1]], sd_sigma = optim_sig_xi_sig[[2]], min_lambda = min_lambda, max_lambda = max_lambda, prior_choice = prior)
     posterior_sigma[[j]] <- mcmc(posterior_samples[1, ((n_iter - n_burn + 1) * (j - 1) + 1): ((n_iter - n_burn + 1) * j)])
     posterior_xi[[j]] <- mcmc(posterior_samples[2, ((n_iter - n_burn + 1) * (j - 1) + 1): ((n_iter - n_burn + 1) * j)])
     posterior_lambda[[j]] <- mcmc(posterior_samples[3, ((n_iter - n_burn + 1) * (j - 1) + 1): ((n_iter - n_burn + 1) * j)])
@@ -129,7 +129,7 @@ simulation_mcmc_scale <- function(xi, sigma,
     ess_start <- sapply(1:n_starting_points, function(j){
 
       params_samples <- bayesian_estimation_gpd_scale(sigxi_lambda_initial = params_initial_grid[j,], x = x, u = u, n_iter = n_iter_grid,
-                                                n_burn = n_burn_grid, sd_xi = sd_xi, sd_sigma = sd_sigma, min_lamda = min_lamda, max_lambda = max_lambda, prior_choice = prior)
+                                                n_burn = n_burn_grid, sd_xi = sd_xi, sd_sigma = sd_sigma, min_lambda = min_lambda, max_lambda = max_lambda, prior_choice = prior)
       effectiveSize(t(params_samples))
 
     })
@@ -146,7 +146,7 @@ simulation_mcmc_scale <- function(xi, sigma,
 
   for(j in 1:n_starting_points) {
     posterior_samples[, ((n_iter - n_burn + 1) * (j - 1) + 1): ((n_iter - n_burn + 1) * j)] <- bayesian_estimation_gpd_scale(sigxi_lambda_initial = params_initial_grid[j,], x = x, u = u, n_iter = n_iter,
-                                                                                                                       n_burn = n_burn, sd_xi = optim_sig_xi_sig[[1]], sd_sigma = optim_sig_xi_sig[[2]], min_lamda = min_lamda, max_lambda = max_lambda, prior_choice = prior)
+                                                                                                                       n_burn = n_burn, sd_xi = optim_sig_xi_sig[[1]], sd_sigma = optim_sig_xi_sig[[2]], min_lambda = min_lambda, max_lambda = max_lambda, prior_choice = prior)
     posterior_sigma[[j]] <- mcmc(posterior_samples[1, ((n_iter - n_burn + 1) * (j - 1) + 1): ((n_iter - n_burn + 1) * j)])
     posterior_xi[[j]] <- mcmc(posterior_samples[2, ((n_iter - n_burn + 1) * (j - 1) + 1): ((n_iter - n_burn + 1) * j)])
     posterior_lambda[[j]] <- mcmc(posterior_samples[3, ((n_iter - n_burn + 1) * (j - 1) + 1): ((n_iter - n_burn + 1) * j)])
