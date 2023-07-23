@@ -8,8 +8,8 @@ library(tidyr)
 
 ## PENULTIMATE APPROXIMATION
 simulation_mcmc_scale_penultimate <- function(xi, sigma,
-                                              xi_init_min = -0.5, sigma_u_init_min = 0,
-                                              xi_init_max = 1.5, sigma_u_init_max = 4,
+                                              xi_init_min = -0.5, sigma_init_min = 0,
+                                              xi_init_max = 1.5, sigma_init_max = 4,
                                               n_starting_points = 5, u,
                                               n_data = 500, n_iter = 1e4, n_burn = 1e3,
                                               prior = c('mdi', 'flat', 'jeffreys'),
@@ -40,7 +40,7 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
   grid <- as.data.frame(grid)
   n_combinations <- dim(grid)[1]
   set.seed(111)
-  params_initial_grid <- matrix(c(runif(n_starting_points, min = sigma_u_init_min, max = sigma_u_init_max),
+  params_initial_grid <- matrix(c(runif(n_starting_points, min = sigma_init_min, max = sigma_init_max),
                                   runif(n_starting_points, min = xi_init_min, max = xi_init_max),
                                   runif(n_starting_points, min = min_lambda, max = max_lambda)),
                                 ncol = 3)
