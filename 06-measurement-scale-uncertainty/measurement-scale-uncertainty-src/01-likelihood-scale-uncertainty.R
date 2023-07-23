@@ -53,6 +53,9 @@ llh_gpd_scale_penultimate <- function(sigxi_lambda_c, u, x, negative = FALSE){
   # Log-likelihood
   prob <- x^(lambda-1) * dgpd(x = x_mod, shape = xi_y, scale = sig_y, shift = u_mod)
   llh <- sum(log(prob))
+  if(prod(prob) == 0){
+    llh <- -10e6
+  }
 
   return((-1)^negative * llh)
 }
