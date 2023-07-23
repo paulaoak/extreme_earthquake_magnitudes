@@ -1,5 +1,5 @@
 ############################
-#SIMULATION 1 FLAT
+#SIMULATION 1
 ############################
 xi_sim <- -0.084
 sigma_sim <- 0.48
@@ -12,7 +12,7 @@ for(i in 1:length(n_data_sim_vector)){
   n_data_sim <- n_data_sim_vector[i]
   for(j in 1:length(prior_sim_vector)){
     prior_sim <- prior_sim_vector[j]
-    for(k in 1:length(scale_transformation_sim)){
+    for(k in 1:length(scale_transformation_sim_vector)){
       scale_transformation_sim <- scale_transformation_sim_vector[k]
       #Simulation scale penultimate
       simulation_results <- simulation_mcmc_scale_penultimate(xi = xi_sim, sigma = sigma_sim,
