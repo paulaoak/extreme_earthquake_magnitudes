@@ -25,7 +25,7 @@ mh_step_random_walk_positive <- function(current_value, log_posterior, sd = 1, a
     (log_posterior(x) + log(truncnorm::dtruncnorm(y, a = a, b = b, mean = x, sd = sd))) #acceptance log_ratio
 
   #accept or reject the proposed values
-  if (log(runif(1))<= log_ratio){
+  if (runif(1)<= exp(log_ratio)){
     x <- y
   }
   x
