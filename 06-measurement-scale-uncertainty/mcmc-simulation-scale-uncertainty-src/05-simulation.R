@@ -11,7 +11,7 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
                                               xi_init_min = -0.5, sigma_init_min = 0,
                                               xi_init_max = 1.5, sigma_init_max = 4,
                                               n_starting_points = 5, u,
-                                              n_data = 500, n_iter = 1e4, n_burn = 1e3,
+                                              n_data, n_iter = 1e4, n_burn = 1e3,
                                               prior = c('mdi', 'flat', 'jeffreys'),
                                               sd_xi = c(0.2, 0.15, 0.1, 0.05), sd_sigma = c(0.2, 0.15, 0.1, 0.05),
                                               min_lambda = -0.1, max_lambda = 3, step_lambda = 0.1,
@@ -28,6 +28,7 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
   # Generate data
   set.seed(123)
   x <- rgpd(n = n_data, scale = sigma, shape = xi, shift = u)
+  print(length(x))
   if (scale_transformation == TRUE){
     # Data under scale transformation
     x <- log(x)
@@ -94,7 +95,7 @@ simulation_mcmc_scale <- function(xi, sigma,
                                   xi_init_min = -0.5, sigma_init_min = 0,
                                   xi_init_max = 1.5, sigma_init_max = 4,
                                   n_starting_points = 5, u,
-                                  n_data = 500, n_iter = 1e4, n_burn = 1e3,
+                                  n_data, n_iter = 1e4, n_burn = 1e3,
                                   prior = c('mdi', 'flat', 'jeffreys'),
                                   sd_xi = c(0.2, 0.15, 0.1, 0.05), sd_sigma = c(0.2, 0.15, 0.1, 0.05),
                                   min_lambda = -0.1, max_lambda = 3,

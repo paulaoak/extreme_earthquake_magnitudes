@@ -89,6 +89,8 @@ profile_llh_gpd_scale_penultimate <- function(sig, xi, lambda, u, x, negative = 
   }
 
   # Check x all be above u
+  print(sum(x<u))
+  print(length(x))
   lep_fail <- any(x < u)
   if(lep_fail){stop('Lower endpoint failure:  !all(x > u).')}
 
