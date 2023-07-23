@@ -4,7 +4,7 @@
 ##################################
 
 estimate_c_penultimate <- function(min_lambda, max_lambda, step_lambda,
-                                   min_xi, max_xi, step_xi){
+                                   min_xi, max_xi, step_xi, u, x){
   lambda_vec <- seq(min_lambda, max_lambda, step_lambda)
   xi_vec <- seq(min_xi, max_xi, step_xi)
   df <- expand.grid(lambda_vec = lambda_vec, xi_vec = xi_vec)
