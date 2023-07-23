@@ -33,6 +33,6 @@ mh_step_random_walk_positive <- function(current_value, log_posterior, sd = 1, a
 
 
 # MH step with independent proposal
-mh_step_random_walk <- function(min_proposal, max_proposal){
+mh_step_independent <- function(min_proposal, max_proposal){
   x <- runif(1, min = min_proposal, max = max_proposal)
 }
