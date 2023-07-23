@@ -40,7 +40,7 @@ bayesian_estimation_gpd_scale_penultimate <- function(sigxi_lambda_initial, c, x
     xi <- mh_step_random_walk (xi, log_posterior_xi, sd = sd_xi)
 
     #MH for lambda parameter
-    lambda <- mh_step_independent (min_proposal = min_lamda, max_proposal = max_lambda)
+    lambda <- mh_step_independent (min_proposal = min_lambda, max_proposal = max_lambda)
 
     params_samples[,iter] <- c(sig, xi, lambda)
 
@@ -86,7 +86,7 @@ bayesian_estimation_gpd_scale <- function(sigxi_lambda_initial, x, u, n_iter, n_
     xi <- mh_step_random_walk (xi, log_posterior_xi, sd = sd_xi)
 
     #MH for lambda parameter
-    lambda <- mh_step_independent (min_proposal = min_lamda, max_proposal = max_lambda)
+    lambda <- mh_step_independent (min_proposal = min_lambda, max_proposal = max_lambda)
 
     params_samples[,iter] <- c(sig, xi, lambda)
 
