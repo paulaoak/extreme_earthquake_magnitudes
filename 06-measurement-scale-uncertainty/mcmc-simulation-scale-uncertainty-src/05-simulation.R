@@ -2,12 +2,11 @@
 #SIMULATIONS
 ###############
 
-## PENULTIMATE APPROXIMATION
-
 # Import libraries
 library(coda)
 library(tidyr)
 
+## PENULTIMATE APPROXIMATION
 simulation_mcmc_scale_penultimate <- function(xi, sigma,
                                               xi_init_min = -0.5, sigma_u_init_min = 0,
                                               xi_init_max = 1.5, sigma_u_init_max = 4,
@@ -89,10 +88,6 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
 
 
 ## UNDER ASSUMPTION OF VALIDITY OF GPD FOR DIFFERENT LAMBDAS
-
-# Import libraries
-library(coda)
-library(tidyr)
 
 simulation_mcmc_scale <- function(xi, sigma,
                                   xi_init_min = -0.5, sigma_u_init_min = 0,
