@@ -163,7 +163,8 @@ simulation_mcmc_scale <- function(xi, sigma,
   #stopifnot('Chains with samples of xi have not converge to the same distribution.' = upper_ci_xi < 1.2)
   upper_ci_lambda <- gelman.diag(mcmc.list(posterior_lambda))[1]$psrf[2]
 
-  if((upper_ci_sigma > 1.25) || (upper_ci_xi > 1.25) || (upper_ci_lambda > 1.25)){posterior_samples<- c(0,0)}
+  #if((upper_ci_sigma > 1.25) || (upper_ci_xi > 1.25) || (upper_ci_lambda > 1.25)){posterior_samples<- c(0,0)}
+  print(c(upper_ci_sigma, upper_ci_xi, upper_ci_lambda))
 
   return(posterior_samples)
 }
