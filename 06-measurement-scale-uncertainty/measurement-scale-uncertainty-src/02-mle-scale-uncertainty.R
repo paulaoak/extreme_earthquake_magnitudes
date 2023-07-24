@@ -124,7 +124,7 @@ mle_gpd_scale_penultimate_profile <- function(sigxi_lambda, u, x, llh_val = TRUE
   # GPD parameters
   lambda <-sigxi_lambda[3]
   sig_0 <- sigxi_lambda[1]
-  sig_y_0 <- sig * u ^(lambda-1)
+  sig_y_0 <- sig_0 * u ^(lambda-1)
   xi_y_0 <- sigxi_lambda[2]
 
   # Modified observations and threshold

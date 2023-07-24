@@ -5,6 +5,7 @@ xi_sim <- -0.084
 sigma_sim <- 0.48
 u_sim <- 1.45
 n_data_sim_vector <- c(60, 125, 250, 500)
+#n_data_sim_vector <- c(500)
 prior_sim_vector <- c('flat', 'mdi', 'jeffreys')
 scale_transformation_sim_vector <- c(TRUE, FALSE)
 
@@ -22,7 +23,7 @@ for(i in 1:length(n_data_sim_vector)){
                                                               n_data = n_data_sim, n_iter = 1e4, n_burn = 1e3,
                                                               prior = prior_sim,
                                                               sd_xi = c(0.2, 0.15, 0.1, 0.05), sd_sigma = c(0.2, 0.15, 0.1, 0.05),
-                                                              min_lambda = -0.1, max_lambda = 3, step_lambda = 0.1,
+                                                              min_lambda = -0.1, max_lambda = 2, step_lambda = 0.1,
                                                               min_xi = -0.35, max_xi = 0.35, step_xi = 0.05,
                                                               scale_transformation = scale_transformation_sim)
 

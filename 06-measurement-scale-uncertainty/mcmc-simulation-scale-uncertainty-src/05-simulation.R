@@ -30,8 +30,12 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
   }
 
   # Obtain estimate of c using weighted least squares regression
+  # Initial values for MLE
+  sigma_init_mle <- runif(1, sigma_init_min, sigma_init_max)
+  xi_init_mle <- runif(1, min_xi, max_xi)
+  lambda_init_mle <- runif(1, min_lambda, max_lambda)
   wlm_c <- estimate_c_penultimate(min_lambda = min_lambda, max_lambda = max_lambda, step_lambda = step_lambda,
-                                  min_xi = min_xi, max_xi = max_xi, step_xi = step_xi, u = u, x = x)
+                                  min_xi = min_xi, max_xi = max_xi, step_xi = step_xi, u = u, x = x, sigxi_lambda_init = c(sigma_init_mle, xi_init_mle, lambda_init_mle))
   c <- wlm_c[1]
 
   #Perform grid search to find optimal variances for the random walk

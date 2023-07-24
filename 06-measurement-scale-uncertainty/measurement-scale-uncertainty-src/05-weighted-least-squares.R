@@ -4,7 +4,7 @@
 ##################################
 
 estimate_c_penultimate <- function(min_lambda, max_lambda, step_lambda,
-                                   min_xi, max_xi, step_xi, u, x){
+                                   min_xi, max_xi, step_xi, u, x, sigxi_lambda_init){
   lambda_vec <- seq(min_lambda, max_lambda, step_lambda)
   xi_vec <- seq(min_xi, max_xi, step_xi)
   df <- expand.grid(lambda_vec = lambda_vec, xi_vec = xi_vec)
@@ -17,6 +17,8 @@ estimate_c_penultimate <- function(min_lambda, max_lambda, step_lambda,
     llh_value[i] <- profile_mle_xi_lambda_new(lambda = lambda_val, xi = xi_val, u = u, x = x, sig = 0.1, method = 'Brent')
   }
 
+  #obtain MLE estimates
+  mle_estimates <- mle_gpd_scale_penultimate_profile(sigxi_lambda = sigxi_lambda_init, u = u, x = x)
   wt <- exp(-2*(mle_estimates$loglik + llh_value)) #weights
 
   #obtain covariate for the regression
