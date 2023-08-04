@@ -23,8 +23,8 @@ quantile_posterior_calculation <- function(mmax, mean, quantile, u){
 xi_sim <- -0.084
 sigma_sim <- 0.48
 u_sim <- 1.45
-n_data_sim_vector <- c(60, 125, 250, 500)
-prior_sim_vector <- c('flat', 'mdi', 'jeffreys')
+n_data_sim_vector <- c(60, 75, 125, 250, 500)
+prior_sim_vector <- c('flat')
 scale_transformation_sim_vector <- c(TRUE, FALSE)
 
 #obtain data frame with results from different simulations

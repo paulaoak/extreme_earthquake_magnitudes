@@ -14,7 +14,7 @@ simulation_mcmc_scale_penultimate <- function(xi, sigma,
                                               n_data, n_iter = 1e4, n_burn = 1e3,
                                               prior = c('mdi', 'flat', 'jeffreys'),
                                               sd_xi = c(0.2, 0.15, 0.1, 0.05), sd_sigma = c(0.2, 0.15, 0.1, 0.05),
-                                              min_lambda = -0.1, max_lambda = 3, step_lambda = 0.1,
+                                              min_lambda = 0, max_lambda = 3, step_lambda = 0.1,
                                               min_xi = -0.35, max_xi = 0.35, step_xi = 0.05,
                                               scale_transformation = TRUE){
 
@@ -101,7 +101,7 @@ simulation_mcmc_scale <- function(xi, sigma,
                                   n_data, n_iter = 1e4, n_burn = 1e3,
                                   prior = c('mdi', 'flat', 'jeffreys'),
                                   sd_xi = c(0.2, 0.15, 0.1, 0.05), sd_sigma = c(0.2, 0.15, 0.1, 0.05),
-                                  min_lambda = -0.1, max_lambda = 3,
+                                  min_lambda = 0, max_lambda = 3,
                                   scale_transformation = TRUE){
 
   prior <- match.arg(prior)

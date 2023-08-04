@@ -5,8 +5,9 @@ xi_sim <- -0.084
 sigma_sim <- 0.48
 u_sim <- 1.45
 #n_data_sim_vector <- c(60, 125, 250, 500)
-n_data_sim_vector <- c(125)
-prior_sim_vector <- c('flat', 'mdi', 'jeffreys')
+n_data_sim_vector <- c(75)
+#prior_sim_vector <- c('flat', 'mdi', 'jeffreys')
+prior_sim_vector <- c('flat')
 scale_transformation_sim_vector <- c(TRUE, FALSE)
 #scale_transformation_sim_vector <- c(FALSE)
 
