@@ -46,106 +46,73 @@ simulation_data_df <- data.frame()
 #######################
 #File 1
 #######################
-file_name_sim_penultimate_true <- paste('new_simulation_penultimate', 'xi', xi_sim,
-                                     'sigma', sigma_sim, 'u', u_sim,
-                                     prior_sim, 'prior', n_data_sim, 'n_data',
-                                     'transform_data',scale_transformation_sim_vector[1], sep = '_')
+file_name_sim_penultimate_true <- paste('simulation_penultimate_linear', 'xi', xi_sim,
+                                        'sigma', sigma_sim, 'u', u_sim,
+                                        prior_sim, 'prior', n_data_sim, 'n_data',
+                                        'transform_data',scale_transformation_sim_vector[1], sep = '_')
 
 simulation_data <- read.csv(here::here('06-measurement-scale-uncertainty','outputs', file_name_sim_penultimate_true),
                             colClasses=c("NULL", NA, NA, NA), col.names = c('','sigma', 'xi', 'lambda'))
 
 simulation_data$transformation <- rep(TRUE, length(simulation_data$sigma))
-simulation_data$type <- rep('penultimate', length(simulation_data$sigma))
-simulation_data$class <- rep('penultimate_true', length(simulation_data$sigma))
+simulation_data$type <- rep('linear', length(simulation_data$sigma))
+simulation_data$class <- rep('linear_true', length(simulation_data$sigma))
 simulation_data_df <- rbind(simulation_data_df, simulation_data)
 
 u_vector <- rep(log(u_sim), length(simulation_data$sigma))
 #######################
 #File 2
 #######################
-file_name_sim_2_true <- paste('new_simulation', 'xi', xi_sim,
-                        'sigma', sigma_sim, 'u', u_sim,
-                        prior_sim, 'prior', n_data_sim, 'n_data',
-                        'transform_data',scale_transformation_sim_vector[1], sep = '_')
+file_name_sim_2_true <- paste('simulation_penultimate_quadratic', 'xi', xi_sim,
+                              'sigma', sigma_sim, 'u', u_sim,
+                              prior_sim, 'prior', n_data_sim, 'n_data',
+                              'transform_data',scale_transformation_sim_vector[1], sep = '_')
 
 simulation_data <- read.csv(here::here('06-measurement-scale-uncertainty','outputs', file_name_sim_2_true),
                             colClasses=c("NULL", NA, NA, NA), col.names = c('','sigma', 'xi', 'lambda'))
 
 simulation_data$transformation <- rep(TRUE, length(simulation_data$sigma))
-simulation_data$type <- rep('no_penultimate', length(simulation_data$sigma))
-simulation_data$class <- rep('no_penultimate_true', length(simulation_data$sigma))
+simulation_data$type <- rep('quadratic', length(simulation_data$sigma))
+simulation_data$class <- rep('quadratic_true', length(simulation_data$sigma))
 simulation_data_df <- rbind(simulation_data_df, simulation_data)
 
 u_vector <- c(u_vector, rep(log(u_sim), length(simulation_data$sigma)))
 #######################
 #File 3
 #######################
-file_name_sim_penultimate_false <- paste('new_simulation_penultimate', 'xi', xi_sim,
-                                        'sigma', sigma_sim, 'u', u_sim,
-                                        prior_sim, 'prior', n_data_sim, 'n_data',
-                                        'transform_data',scale_transformation_sim_vector[2], sep = '_')
+file_name_sim_penultimate_false <- paste('simulation_penultimate_linear', 'xi', xi_sim,
+                                         'sigma', sigma_sim, 'u', u_sim,
+                                         prior_sim, 'prior', n_data_sim, 'n_data',
+                                         'transform_data',scale_transformation_sim_vector[2], sep = '_')
 
 simulation_data <- read.csv(here::here('06-measurement-scale-uncertainty','outputs', file_name_sim_penultimate_false),
                             colClasses=c("NULL", NA, NA, NA), col.names = c('','sigma', 'xi', 'lambda'))
 
 simulation_data$transformation <- rep(FALSE, length(simulation_data$sigma))
-simulation_data$type <- rep('penultimate', length(simulation_data$sigma))
-simulation_data$class <- rep('penultimate_false', length(simulation_data$sigma))
+simulation_data$type <- rep('linear', length(simulation_data$sigma))
+simulation_data$class <- rep('linear_false', length(simulation_data$sigma))
 simulation_data_df <- rbind(simulation_data_df, simulation_data)
 
 u_vector <- c(u_vector, rep(u_sim, length(simulation_data$sigma)))
 #######################
 #File 4
 #######################
-file_name_sim_2_false <- paste('new_simulation', 'xi', xi_sim,
-                              'sigma', sigma_sim, 'u', u_sim,
-                              prior_sim, 'prior', n_data_sim, 'n_data',
-                              'transform_data',scale_transformation_sim_vector[2], sep = '_')
+file_name_sim_2_false <- paste('simulation_penultimate_quadratic', 'xi', xi_sim,
+                               'sigma', sigma_sim, 'u', u_sim,
+                               prior_sim, 'prior', n_data_sim, 'n_data',
+                               'transform_data',scale_transformation_sim_vector[2], sep = '_')
 
 simulation_data <- read.csv(here::here('06-measurement-scale-uncertainty','outputs', file_name_sim_2_false),
                             colClasses=c("NULL", NA, NA, NA), col.names = c('','sigma', 'xi', 'lambda'))
 
 simulation_data$transformation <- rep(FALSE, length(simulation_data$sigma))
-simulation_data$type <- rep('no_penultimate', length(simulation_data$sigma))
-simulation_data$class <- rep('no_penultimate_false', length(simulation_data$sigma))
+simulation_data$type <- rep('quadratic', length(simulation_data$sigma))
+simulation_data$class <- rep('quadratic_false', length(simulation_data$sigma))
 simulation_data_df <- rbind(simulation_data_df, simulation_data)
 
 u_vector <- c(u_vector, rep(u_sim, length(simulation_data$sigma)))
 
-#######################
-#File 5
-#######################
-file_name_sim_no_false <- paste('new_simulation_NO', 'xi', xi_sim,
-                                'sigma', sigma_sim, 'u', u_sim,
-                                prior_sim, 'prior', n_data_sim, 'n_data',
-                                'transform_data',scale_transformation_sim_vector[2], sep = '_')
 
-simulation_data <- read.csv(here::here('06-measurement-scale-uncertainty','outputs', file_name_sim_no_false),
-                            colClasses=c("NULL", NA, NA, NA), col.names = c('','sigma', 'xi', 'lambda'))
-
-simulation_data$transformation <- rep(FALSE, length(simulation_data$sigma))
-simulation_data$type <- rep('no_scale', length(simulation_data$sigma))
-simulation_data$class <- rep('no_scale_false', length(simulation_data$sigma))
-simulation_data_df <- rbind(simulation_data_df, simulation_data)
-#u_vector <- c()
-u_vector <- c(u_vector, rep(u_sim, length(simulation_data$sigma)))
-#######################
-#File 6
-#######################
-file_name_sim_no_true <- paste('new_simulation_NO', 'xi', xi_sim,
-                               'sigma', sigma_sim, 'u', u_sim,
-                               prior_sim, 'prior', n_data_sim, 'n_data',
-                               'transform_data',scale_transformation_sim_vector[1], sep = '_')
-
-simulation_data <- read.csv(here::here('06-measurement-scale-uncertainty','outputs', file_name_sim_no_true),
-                            colClasses=c("NULL", NA, NA, NA), col.names = c('','sigma', 'xi', 'lambda'))
-
-simulation_data$transformation <- rep(TRUE, length(simulation_data$sigma))
-simulation_data$type <- rep('no_scale', length(simulation_data$sigma))
-simulation_data$class <- rep('no_scale_true', length(simulation_data$sigma))
-simulation_data_df <- rbind(simulation_data_df, simulation_data)
-
-u_vector <- c(u_vector, rep(log(u_sim), length(simulation_data$sigma)))
 #u_vector <- c(rep(log(u_sim), length(simulation_data$sigma)))
 #################################
 # Compute posterior quantiles
@@ -213,7 +180,7 @@ plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.5, colour = class
 
 
 #save plot
-file_name <- paste('posterior_0.5_quantile',
+file_name <- paste('posterior_0.5_quantile_penultimate_parametric',
                    prior_sim, 'prior',
                    sigma_sim, 'sigma',
                    xi_sim, 'xi.png', sep = '-')
@@ -253,7 +220,7 @@ plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.75, colour = clas
 
 
 #save plot
-file_name <- paste('posterior_0.75_quantile',
+file_name <- paste('posterior_0.75_quantile_penultimate_parametric',
                    prior_sim, 'prior',
                    sigma_sim, 'sigma',
                    xi_sim, 'xi.png', sep = '-')
@@ -294,7 +261,7 @@ plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.9, colour = class
 
 
 #save plot
-file_name <- paste('posterior_0.9_quantile',
+file_name <- paste('posterior_0.9_quantile_penultimate_parametric',
                    prior_sim, 'prior',
                    sigma_sim, 'sigma',
                    xi_sim, 'xi.png', sep = '-')
@@ -335,7 +302,7 @@ plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.95, colour = clas
 
 
 #save plot
-file_name <- paste('posterior_0.95_quantile',
+file_name <- paste('posterior_0.95_quantile_penultimate_parametric',
                    prior_sim, 'prior',
                    sigma_sim, 'sigma',
                    xi_sim, 'xi.png', sep = '-')
