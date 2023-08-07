@@ -4,7 +4,7 @@
 
 
 library(ggplot2)
-library(urbnthemes)
+#library(urbnthemes)
 
 
 #function to compute quantile from xi and sigma
@@ -56,7 +56,7 @@ simulation_data <- read.csv(here::here('06-measurement-scale-uncertainty','outpu
 
 simulation_data$transformation <- rep(TRUE, length(simulation_data$sigma))
 simulation_data$type <- rep('linear', length(simulation_data$sigma))
-simulation_data$class <- rep('linear_true', length(simulation_data$sigma))
+simulation_data$class <- rep('Linear approx., Log data', length(simulation_data$sigma))
 simulation_data_df <- rbind(simulation_data_df, simulation_data)
 
 u_vector <- rep(log(u_sim), length(simulation_data$sigma))
@@ -73,7 +73,7 @@ simulation_data <- read.csv(here::here('06-measurement-scale-uncertainty','outpu
 
 simulation_data$transformation <- rep(TRUE, length(simulation_data$sigma))
 simulation_data$type <- rep('quadratic', length(simulation_data$sigma))
-simulation_data$class <- rep('quadratic_true', length(simulation_data$sigma))
+simulation_data$class <- rep('Quadratic approx., Log data', length(simulation_data$sigma))
 simulation_data_df <- rbind(simulation_data_df, simulation_data)
 
 u_vector <- c(u_vector, rep(log(u_sim), length(simulation_data$sigma)))
@@ -90,7 +90,7 @@ simulation_data <- read.csv(here::here('06-measurement-scale-uncertainty','outpu
 
 simulation_data$transformation <- rep(FALSE, length(simulation_data$sigma))
 simulation_data$type <- rep('linear', length(simulation_data$sigma))
-simulation_data$class <- rep('linear_false', length(simulation_data$sigma))
+simulation_data$class <- rep('Linear approx.', length(simulation_data$sigma))
 simulation_data_df <- rbind(simulation_data_df, simulation_data)
 
 u_vector <- c(u_vector, rep(u_sim, length(simulation_data$sigma)))
@@ -107,7 +107,7 @@ simulation_data <- read.csv(here::here('06-measurement-scale-uncertainty','outpu
 
 simulation_data$transformation <- rep(FALSE, length(simulation_data$sigma))
 simulation_data$type <- rep('quadratic', length(simulation_data$sigma))
-simulation_data$class <- rep('quadratic_false', length(simulation_data$sigma))
+simulation_data$class <- rep('Quadratic approx.', length(simulation_data$sigma))
 simulation_data_df <- rbind(simulation_data_df, simulation_data)
 
 u_vector <- c(u_vector, rep(u_sim, length(simulation_data$sigma)))
@@ -151,22 +151,25 @@ simulation_data_df$quantile_0.95 <- ifelse(simulation_data_df$transformation, ex
 #if(prior_sim == 'jeffreys'){prior_sim = 'Jeffreys'}
 #if(prior_sim == 'mdi'){prior_sim = 'MDI'}
 
+simulation_data_df$class <- factor(simulation_data_df$class, levels = c('Quadratic approx.', 'Quadratic approx., Log data', 'Linear approx.',
+                                                                        'Linear approx., Log data'))
 
 #Plot 0.5 quantile
 quantile<- 0.5
 true_quantile <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile =quantile, u = u_sim)
 plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.5, colour = class, fill = class)) +
-  geom_density(alpha = 0.4)+
+  geom_density(alpha = 0.25)+
   geom_segment(aes(x = true_quantile, y = 0, xend = true_quantile, yend = Inf, linetype = "True quantile"), color = 'black')+
-  ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  #ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  xlab(paste(quantile, 'quantile', sep = ' '))+
   theme_classic()+
-  theme(axis.title.x = element_blank(),
+  theme(#axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         axis.text.x = element_text(family = 'sans'),
         axis.text.y = element_text(family = 'sans'),
         title = element_text(family = 'sans', size = 8),
         legend.title = element_blank(),
-        legend.text = element_text(family = 'sans', size = 7),
+        legend.text = element_text(family = 'sans', size = 8),
         #panel.grid.major = element_blank(),
         #panel.grid.minor = element_blank(),
         axis.line.y = element_line(),
@@ -176,7 +179,8 @@ plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.5, colour = class
   #legend.direction='vertical')+
   #legend.position = 'right')+
   expand_limits(y = 0) +
-  coord_cartesian(expand = FALSE, clip = "off")
+  coord_cartesian(expand = FALSE, clip = "off")+
+  xlim(1.4,3)
 
 
 #save plot
@@ -196,17 +200,18 @@ ggsave(here::here('06-measurement-scale-uncertainty', 'figures', file_name),
 quantile<- 0.75
 true_quantile <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile =quantile, u = u_sim)
 plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.75, colour = class, fill = class)) +
-  geom_density(alpha = 0.4)+
+  geom_density(alpha = 0.25)+
   geom_segment(aes(x = true_quantile, y = 0, xend = true_quantile, yend = Inf, linetype = "True quantile"), color = 'black')+
-  ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  #ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  xlab(paste(quantile, 'quantile', sep = ' '))+
   theme_classic()+
-  theme(axis.title.x = element_blank(),
+  theme(#axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         axis.text.x = element_text(family = 'sans'),
         axis.text.y = element_text(family = 'sans'),
         title = element_text(family = 'sans', size = 8),
         legend.title = element_blank(),
-        legend.text = element_text(family = 'sans', size = 7),
+        legend.text = element_text(family = 'sans', size = 8),
         #panel.grid.major = element_blank(),
         #panel.grid.minor = element_blank(),
         axis.line.y = element_line(),
@@ -216,7 +221,8 @@ plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.75, colour = clas
   #legend.direction='vertical')+
   #legend.position = 'right')+
   expand_limits(y = 0) +
-  coord_cartesian(expand = FALSE, clip = "off")
+  coord_cartesian(expand = FALSE, clip = "off")+
+  xlim(1.4,4)
 
 
 #save plot
@@ -237,17 +243,18 @@ ggsave(here::here('06-measurement-scale-uncertainty', 'figures', file_name),
 quantile<- 0.9
 true_quantile <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile =quantile, u = u_sim)
 plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.9, colour = class, fill = class)) +
-  geom_density(alpha = 0.4)+
+  geom_density(alpha = 0.25)+
   geom_segment(aes(x = true_quantile, y = 0, xend = true_quantile, yend = Inf, linetype = "True quantile"), color = 'black')+
-  ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  #ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  xlab(paste(quantile, 'quantile', sep = ' '))+
   theme_classic()+
-  theme(axis.title.x = element_blank(),
+  theme(#axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         axis.text.x = element_text(family = 'sans'),
         axis.text.y = element_text(family = 'sans'),
         title = element_text(family = 'sans', size = 8),
         legend.title = element_blank(),
-        legend.text = element_text(family = 'sans', size = 7),
+        legend.text = element_text(family = 'sans', size = 8),
         #panel.grid.major = element_blank(),
         #panel.grid.minor = element_blank(),
         axis.line.y = element_line(),
@@ -277,17 +284,18 @@ ggsave(here::here('06-measurement-scale-uncertainty', 'figures', file_name),
 quantile<- 0.95
 true_quantile <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile =quantile, u = u_sim)
 plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.95, colour = class, fill = class)) +
-  geom_density(alpha = 0.4)+
+  geom_density(alpha = 0.25)+
   geom_segment(aes(x = true_quantile, y = 0, xend = true_quantile, yend = Inf, linetype = "True quantile"), color = 'black')+
-  ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  #ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  xlab(paste(quantile, 'quantile', sep = ' '))+
   theme_classic()+
-  theme(axis.title.x = element_blank(),
+  theme(#axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         axis.text.x = element_text(family = 'sans'),
         axis.text.y = element_text(family = 'sans'),
         title = element_text(family = 'sans', size = 8),
         legend.title = element_blank(),
-        legend.text = element_text(family = 'sans', size = 7),
+        legend.text = element_text(family = 'sans', size = 8),
         #panel.grid.major = element_blank(),
         #panel.grid.minor = element_blank(),
         axis.line.y = element_line(),
@@ -298,7 +306,7 @@ plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.95, colour = clas
   #legend.position = 'right')+
   expand_limits(y = 0) +
   coord_cartesian(expand = FALSE, clip = "off")+
-  xlim(1.25, 10)
+  xlim(1.4, 6)
 
 
 #save plot
