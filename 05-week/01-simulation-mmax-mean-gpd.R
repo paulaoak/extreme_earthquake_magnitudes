@@ -83,8 +83,10 @@ simulation_mcmc_2 <- function(mmax, mean,
 ############################
 #SIMULATION 1
 ############################
-mmax_sim <- 7.6
-mean_sim <- 2.1
+#mmax_sim <- 7.6
+mmax_sim <- 7.16
+#mean_sim <- 2.1
+mean_sim <- 1.9
 u_sim <- 1.45
 b_value_sim <- 1.8
 epsilon_sim <- 1.5
@@ -93,7 +95,7 @@ alpha_sim <- 1
 beta_sim <- 0.5
 prior_sim_vector <- c('flat-flat')
 #n_data_sim_vector <- c(60, 125, 250, 500)
-n_data_sim_vector <- c(500)
+n_data_sim_vector <- c(125)
 
 for(i in 1:length(n_data_sim_vector)){
   n_data_sim <- n_data_sim_vector[i]
@@ -102,7 +104,7 @@ for(i in 1:length(n_data_sim_vector)){
 
     simulation_results <- simulation_mcmc_2(mmax = mmax_sim, mean = mean_sim,
                                             u = u_sim, n_data = n_data_sim, n_iter = 1e4, n_burn = 1e3,
-                                            prior = prior_sim, sd_mean = c(0.10))
+                                            prior = prior_sim, sd_mmax = c(1.1))
 
 
     file_name_sim <- paste('mmax', mmax_sim,

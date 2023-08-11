@@ -2,9 +2,9 @@
 #READ DATA AND COMPUTE QUANTILES
 ###################################
 
-
 library(ggplot2)
-library(urbnthemes)
+#library(urbnthemes)
+library(latex2exp)
 
 #function to compute quantile from mean and mmax
 quantile_posterior_calculation <- function(mmax, mean, quantile, u){
@@ -20,6 +20,8 @@ quantile_posterior_calculation <- function(mmax, mean, quantile, u){
 ############################
 #Analysis and visualization 1
 ############################
+#mmax_sim <- 7.16
+#mean_sim <- 1.9
 mmax_sim <- 7.6
 mean_sim <- 2.1
 u_sim <- 1.45
@@ -30,6 +32,7 @@ alpha_sim <- 1
 beta_sim <- 0.5
 prior_sim <- 'flat-flat'
 n_data_sim_vector <- c(60, 125, 250, 500)
+#n_data_sim_vector <- c(125)
 
 #obtain data frame with results from different simulations
 simulation_data_df <- data.frame()
@@ -65,23 +68,25 @@ simulation_data_df$type <- factor(simulation_data_df$type, levels = c('500 obs',
 #Plot posterior density
 plot_post <- ggplot(simulation_data_df, aes(x = mean, y = mmax, colour = type)) +
   geom_density_2d()+
-  xlab('mean')+
-  ylab(expression(M_max))+
-  ggtitle(paste('Posterior density for', prior_sim, 'prior', sep = ' '))+
+  xlab(expression(mean))+
+  ylab(unname(TeX(c("$M_{\\max}$"))))+
+  #ggtitle(paste('Posterior density for', prior_sim, 'prior', sep = ' '))+
+  theme_classic()+
   theme(#axis.title.x = element_blank(),
     #axis.title.y = element_blank(),
     axis.text.x = element_text(family = 'sans'),
     axis.text.y = element_text(family = 'sans'),
     legend.title = element_blank(),
-    legend.text = element_text(family = 'sans', size = 7),
+    legend.text = element_text(family = 'sans', size = 9),
     legend.position = 'top',
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     axis.line.y = element_line(),
-    axis.ticks.y = element_line())
+    axis.ticks.y = element_line(),
+    axis.line.x = element_line(),
+    axis.ticks.x = element_line())
 
-
-file_name <- paste('posterior-mmax-mean',
+file_name <- paste('NEW-posterior-mmax-mean',
                    'mmax', mmax_sim,
                    'mean', mean_sim,
                    prior_sim, 'prior.png', sep = '-')
@@ -99,7 +104,7 @@ true_quantile <- quantile_posterior_calculation(mmax = mmax_sim ,mean = mean_sim
 plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.5, colour = type, fill = type)) +
   geom_density(alpha = 0.4)+
   geom_segment(aes(x = true_quantile, y = 0, xend = true_quantile, yend = Inf, linetype = "True quantile"), color = 'black')+
-  ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  #ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
   theme_classic()+
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank(),
@@ -118,6 +123,9 @@ plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.5, colour = type,
   #legend.position = 'right')+
   expand_limits(y = 0) +
   coord_cartesian(expand = FALSE, clip = "off")
+
+
+
 
 
 #save plot
@@ -139,9 +147,10 @@ true_quantile <- quantile_posterior_calculation(mmax = mmax_sim ,mean = mean_sim
 plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.75, colour = type, fill = type)) +
   geom_density(alpha = 0.4)+
   geom_segment(aes(x = true_quantile, y = 0, xend = true_quantile, yend = Inf, linetype = "True quantile"), color = 'black')+
-  ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  #ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
   theme_classic()+
-  theme(axis.title.x = element_blank(),
+  xlab('0.75 quantile')+
+  theme(#axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         axis.text.x = element_text(family = 'sans'),
         axis.text.y = element_text(family = 'sans'),
@@ -180,7 +189,7 @@ true_quantile <- quantile_posterior_calculation(mmax = mmax_sim ,mean = mean_sim
 plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.9, colour = type, fill = type)) +
   geom_density(alpha = 0.4)+
   geom_segment(aes(x = true_quantile, y = 0, xend = true_quantile, yend = Inf, linetype = "True quantile"), color = 'black')+
-  ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  #ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
   theme_classic()+
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank(),
@@ -220,9 +229,10 @@ true_quantile <- quantile_posterior_calculation(mmax = mmax_sim ,mean = mean_sim
 plot_quantile <- ggplot(simulation_data_df, aes(x = quantile_0.95, colour = type, fill = type)) +
   geom_density(alpha = 0.4)+
   geom_segment(aes(x = true_quantile, y = 0, xend = true_quantile, yend = Inf, linetype = "True quantile"), color = 'black')+
-  ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
+  #ggtitle(paste('Posterior distribution of quantile', quantile, sep = ' '))+
   theme_classic()+
-  theme(axis.title.x = element_blank(),
+  xlab('0.95 quantile')+
+  theme(#axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         axis.text.x = element_text(family = 'sans'),
         axis.text.y = element_text(family = 'sans'),
@@ -514,7 +524,7 @@ alpha_sim_2 <- 1
 beta_sim_2 <- 0.5
 prior_sim_vector <- c('unif-unif', 'unif-gamma', 'flat-gamma', 'gamma-gamma')
 #n_data_sim_vector <- c(60, 125, 250, 500)
-n_data_sim_vector <- c(25, 35, 45, 55)
+#n_data_sim_vector <- c(25, 35, 45, 55)
 
 for (j in 1:length(n_data_sim_vector)){
   n_data_sim <- n_data_sim_vector[j]
@@ -608,7 +618,7 @@ for (j in 1:length(n_data_sim_vector)){
 
 
   #save plot
-  file_name <- paste('posterior_0.5_quantile',
+  file_name <- paste('NEW-posterior_0.5_quantile',
                      prior_sim, 'prior',
                      mmax_sim, 'mmax',
                      mean_sim, 'mean.png', sep = '-')
@@ -648,7 +658,7 @@ for (j in 1:length(n_data_sim_vector)){
 
 
   #save plot
-  file_name <- paste('posterior_0.75_quantile',
+  file_name <- paste('NEW-posterior_0.75_quantile',
                      prior_sim, 'prior',
                      mmax_sim, 'mmax',
                      mean_sim, 'mean.png', sep = '-')
@@ -689,7 +699,7 @@ for (j in 1:length(n_data_sim_vector)){
 
 
   #save plot
-  file_name <- paste('posterior_0.9_quantile',
+  file_name <- paste('NEW-posterior_0.9_quantile',
                      prior_sim, 'prior',
                      mmax_sim, 'mmax',
                      mean_sim, 'mean.png', sep = '-')
@@ -729,7 +739,7 @@ for (j in 1:length(n_data_sim_vector)){
 
 
   #save plot
-  file_name <- paste('posterior_0.95_quantile',
+  file_name <- paste('NEW-posterior_0.95_quantile',
                      prior_sim, 'prior',
                      mmax_sim, 'mmax',
                      mean_sim, 'mean.png', sep = '-')

@@ -154,6 +154,29 @@ simulation_data_df$quantile_0.95 <- ifelse(simulation_data_df$transformation, ex
 simulation_data_df$class <- factor(simulation_data_df$class, levels = c('Quadratic approx.', 'Quadratic approx., Log data', 'Linear approx.',
                                                                         'Linear approx., Log data'))
 
+true_0.5 <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile = 0.5, u = u_sim)
+true_0.75 <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile = 0.75, u = u_sim)
+true_0.95 <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile = 0.95, u = u_sim)
+
+summary_error <- simulation_data_df%>%
+  group_by(class)%>%
+  summarise(avg_0.5 = mean(quantile_0.5),
+            bias2_0.5 = (mean(quantile_0.5)-true_0.5)^2,
+            var_0.5 = var(quantile_0.5),
+            avg_0.75 = mean(quantile_0.75),
+            bias2_0.75 = (mean(quantile_0.75)-true_0.75)^2,
+            var_0.75 = var(quantile_0.75),
+            avg_0.95 = mean(quantile_0.95),
+            bias2_0.95 = (mean(quantile_0.95)-true_0.95)^2,
+            var_0.95 = var(quantile_0.95))
+
+summary_error <- summary_error %>%
+  mutate(mse_0.5 = var_0.5 + bias2_0.5,
+         mse_0.75 = var_0.75 + bias2_0.75,
+         mse_0.95 = var_0.95 + bias2_0.95)
+
+
+
 #Plot 0.5 quantile
 quantile<- 0.5
 true_quantile <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile =quantile, u = u_sim)

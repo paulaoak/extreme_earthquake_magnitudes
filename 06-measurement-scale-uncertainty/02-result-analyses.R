@@ -5,6 +5,8 @@
 
 library(ggplot2)
 #library(urbnthemes)
+library(magrittr)
+library(dplyr)
 
 
 #function to compute quantile from xi and sigma
@@ -204,6 +206,33 @@ simulation_data_df$quantile_0.95 <- ifelse(simulation_data_df$transformation, ex
 #if(prior_sim == 'jeffreys'){prior_sim = 'Jeffreys'}
 #if(prior_sim == 'mdi'){prior_sim = 'MDI'}
 
+#no_scale <- simulation_data_df%>%filter(class =='No scale')
+#no_scale_log <- simulation_data_df%>%filter(class =='No scale, Log data')
+#penultimate <- simulation_data_df%>%filter(class =='Penultimate')
+#penultimate_log <- simulation_data_df%>%filter(class =='Penultimate, Log data')
+#no_penultimate <- simulation_data_df%>%filter(class =='No penultimate')
+#no_penultimate_log <- simulation_data_df%>%filter(class =='No penultimate, Log data')
+
+true_0.5 <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile = 0.5, u = u_sim)
+true_0.75 <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile = 0.75, u = u_sim)
+true_0.95 <- quantile_posterior_calculation_penultimate(sigma = sigma_sim ,xi = xi_sim, quantile = 0.95, u = u_sim)
+
+summary_error <- simulation_data_df%>%
+  group_by(class)%>%
+  summarise(avg_0.5 = mean(quantile_0.5),
+            bias2_0.5 = (mean(quantile_0.5)-true_0.5)^2,
+            var_0.5 = var(quantile_0.5),
+            avg_0.75 = mean(quantile_0.75),
+            bias2_0.75 = (mean(quantile_0.75)-true_0.75)^2,
+            var_0.75 = var(quantile_0.75),
+            avg_0.95 = mean(quantile_0.95),
+            bias2_0.95 = (mean(quantile_0.95)-true_0.95)^2,
+            var_0.95 = var(quantile_0.95))
+
+summary_error <- summary_error %>%
+  mutate(mse_0.5 = var_0.5 + bias2_0.5,
+         mse_0.75 = var_0.75 + bias2_0.75,
+         mse_0.95 = var_0.95 + bias2_0.95)
 
 #Plot 0.5 quantile
 quantile<- 0.5
